@@ -18,8 +18,10 @@ object pepita {
 	}
 
     method esAtrapada() = self.position() == silvestre.position()
-	method come(comida) {
-		energia = energia + comida.energiaQueOtorga()
+	
+	method come() {
+		energia = energia + self.atraparComida().energiaQueOtorga()
+		game.removeVisual(self.atraparComida())
 	}
 
 	method vola(kms) {
@@ -27,10 +29,20 @@ object pepita {
 	}
 
 	method irA(nuevaPosicion) {
+		if (!self.esAtrapada() and !self.estaCansada()){
 		self.vola(position.distance(nuevaPosicion))
 		position = nuevaPosicion
+		}
 	}
 
+	method caer() {
+        position = self.position().down(1)
+		self.corregirPosicion()
+    }
+    method corregirPosicion() {
+        position = game.at(position.x().max(0).min(game.width()), position.y().max(0).min(game.height()))
+    }
+	
 	method estaCansada() {
 		return energia <= 0
 	}
@@ -43,6 +55,17 @@ object pepita {
 	method estaEnElSuelo() {
 		return position.y() == 0 
 	}
+	
 
+	method atraparComida() = game.uniqueCollider(self)
+
+	//method atraparComida() {
+    //    const comidas = game.colliders(self) // no usamos uniqueColliders porque tira error si no hay ninguna
+    //    if (!comidas.isEmpty()) {
+    //      const comida = comidas.first()
+    //      self.comer(comida)
+    //      game.removeVisual(comida)
+    //}
+    //}
 }
 

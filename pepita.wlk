@@ -40,8 +40,9 @@ object pepita {
 	}
 
 	method caer() {
+		if (!self.estaEnElNido()){
         position = position.down(1)
-		self.corregirPosicion()
+		self.corregirPosicion()}
     }
     method corregirPosicion() {
         position = game.at(position.x().max(0).min(game.width()), position.y().max(0).min(game.height()))

@@ -1,4 +1,3 @@
-import example.*
 import pepita.*
 import comidas.*
 import extras.*
